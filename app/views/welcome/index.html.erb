@@ -1,0 +1,13 @@
+<h1>Welcome to My App</h1>
+<% if session[:user_id] %>
+  <p>Logged in as <%= User.find(session[:user_id]).username %></p>
+
+  
+  <%= link_to 'Log Out', logout_path, method: :delete %>
+<% else %>
+  <%= link_to 'Sign Up', signup_path %> or <%= link_to 'Log In', login_path %>
+<% end %>
+
+<% if flash[:notice] %>
+  <div class="alert alert-success"><%= flash[:notice] %></div>
+<% end %>
