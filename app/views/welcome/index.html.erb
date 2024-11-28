@@ -1,38 +1,42 @@
 <h1>Welcome to My App</h1>
 <% if session[:user_id] %>
-  <p>Logged in as <%= User.find(session[:user_id]).username %></p>
+  <p>Logged in as <b><%= User.find(session[:user_id]).username %></b></p>
   <p>Feed</p>
-  <% @posts_user.each do |post| %>
+  <% @posts_all.each do |post| %>
     <div style="border: 1px solid #000;">
       <div style="border: 1px solid #000;">
         <h2><%= post.headline %></h2>
+        <% if post.user_id == session[:user_id] %>
+          <%= link_to 'View Post', post_path(post) %> || 
+          <%= link_to 'Edit Post', edit_post_path(post, user_id: session[:user_id]) %>
+        <% end %>
       </div>
       <p><%= post.content %></p>
-      <p>Posted by <%= post.user.username %></p>
-      <p><%= link_to 'View Post', post_path(post), method: :delete %></p>
-      <p><%= link_to 'Edit Post', edit_post_path(post, user_id: session[:user_id]) %></p>
+      <p>Posted by <b><%= post.user.username %></b></p>
     </div>
   <% end %>
-
-
 
   <%= link_to 'Create New Post', new_post_path(user_id: session[:user_id]) %> <br/> <br/>
   <%= link_to 'Log Out', logout_path, method: :delete %>
 <% else %>
   <%= link_to 'Sign Up', signup_path %> or <%= link_to 'Log In', login_path %>
 
+
 <% if flash[:notice] %>
   <div class="alert alert-success"><%= flash[:notice] %></div>
 <% end %>
 
-<p>Feed</p>
-  <% @posts_all.each do |post| %>
+<br/>
+<br/>
+
+<% @posts_all.each do |post| %>
     <div style="border: 1px solid #000;">
       <div style="border: 1px solid #000;">
         <h2><%= post.headline %></h2>
       </div>
       <p><%= post.content %></p>
-      <p>Posted by <%= post.user.username %></p>
+      <p>Posted by <b><%= post.user.username %></b></p>
     </div>
   <% end %>
+
 <% end %>
