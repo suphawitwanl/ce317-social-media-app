@@ -1,8 +1,7 @@
-<%= form_with(model: post) do |form| %>
+<%= form_with(model: post, local: true, class: "needs-validation") do |form| %>
   <% if post.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
+    <div class="alert alert-danger">
+      <h4 class="alert-heading"><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h4>
       <ul>
         <% post.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,22 +10,19 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :headline, style: "display: block" %>
-    <%= form.text_field :headline %>
+  <div class="form-group">
+    <%= form.label :headline %>
+    <%= form.text_field :headline, class: "form-control", required: true %>
   </div>
 
-  <div>
-    <%= form.label :content, style: "display: block" %>
-    <%= form.text_area :content %>
+  <div class="form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, class: "form-control", rows: 5, required: true %>
   </div>
 
-  <div>
-    <%#= form.label :user_id, style: "display: block" %>
-    <%= form.hidden_field :user_id, value: params[:user_id]%>
-  </div>
+  <%= form.hidden_field :user_id, value: params[:user_id] %>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-group text-center">
+    <%= form.submit "Save Changes", class: "btn btn-primary" %>
   </div>
 <% end %>

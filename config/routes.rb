@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  resources :posts
+  get "comments/create"
+  get "comments/destroy"
+  get "likes/create"
+  get "likes/destroy"
+  resources :posts do
+    resources :likes, only: [:create, :destroy]
+    resources :comments, only: [:create, :destroy]
+  end
   get "welcome/index"
   get 'signup', to: 'users#new'
   post 'signup', to: 'users#create'
